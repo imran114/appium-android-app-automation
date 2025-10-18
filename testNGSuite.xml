@@ -9,7 +9,7 @@
 
     <test name="Instagram Tests">
         <parameter name="platform" value="android"/>
-        <parameter name="udid" value="tga6orpbbaaqe6ey"/>
+        <parameter name="udid" value="provide device udid here"/>
         <parameter name="env" value="prod"/>
 
         <classes>
