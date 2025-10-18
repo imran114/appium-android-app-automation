@@ -1,14 +1,24 @@
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Test Suite">
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Regression Test Suite">
+
+
     <listeners>
-        <listener class-name="utils.listener.TestListener"/>
+        <listener class-name="utilities.listener.SuiteListener"/>
+        <listener class-name="utilities.listener.TestListener"/>
     </listeners>
 
-    <test name="Regression Tests">
-        <parameter name="deviceName" value="LDPlayerTwo" />
-        <parameter name="driver" value="driverInstance" />
+    <test name="Instagram Tests">
+        <parameter name="platform" value="android"/>
+        <parameter name="udid" value="tga6orpbbaaqe6ey"/>
+        <parameter name="env" value="prod"/>
+
         <classes>
-            <class name="tests.ExampleTest"/>
+            <class name="tests.login.LoginTests"/>
         </classes>
     </test>
+
+
+
+
+
 </suite>
