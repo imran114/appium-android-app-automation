@@ -5,7 +5,7 @@
       "udid": "RFCT81AXXRM",
       "deviceName": "Android Device",
       "platformName": "Android",
-      "platformVersion": "14",
+      "platformVersion": "16",
       "automationName": "UiAutomator2",
       "app": "apps/app.apk",
       "autoGrantPermissions": true,
