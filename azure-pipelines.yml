@@ -36,9 +36,9 @@ jobs:
       - task: Maven@3
         inputs:
           mavenPomFile: 'pom.xml'
-          mavenOptions: '-Xmx3072m'
+          mavenOptions: '-Xmx3072m -e'
           javaHomeOption: 'Path'
-          jdkUserInputPath: '$(JAVA_HOME)'
+          jdkUserInputPath: '/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
           jdkArchitectureOption: 'x64'
           goals: 'test'
         displayName: 'Run Android automation tests'
