@@ -10,6 +10,7 @@ variables:
   ANDROID_DEVICE_UDID: 'RFCT81AXXRM'
   APPIUM_PORT: 4723
   JAVA_HOME: '/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
+  ANDROID_HOME: '/Users/evamp-saanga/Library/Android/sdk'
   MAVEN_OPTS: '-Xmx3072m'
 
 jobs:
@@ -19,13 +20,19 @@ jobs:
 
       # Step 1: Verify Android device is connected
       - script: |
-          echo "Checking connected Android devices..."
-          adb devices
+          export ANDROID_HOME='/Users/evamp-saanga/Library/Android/sdk'
+          export PATH="$ANDROID_HOME/platform-tools:/usr/local/bin:$PATH"
+          adb kill-server
           adb start-server
+          sleep 3
+          echo "Connected devices:"
+          adb devices
         displayName: 'Verify Android device connection'
 
       # Step 2: Start Appium server with device-farm plugin
       - script: |
+          export ANDROID_HOME='/Users/evamp-saanga/Library/Android/sdk'
+          export PATH="$ANDROID_HOME/platform-tools:/usr/local/bin:$PATH"
           echo "Starting Appium server with device-farm plugin..."
           appium server -ka 800 --use-plugins=device-farm -pa /wd/hub --plugin-device-farm-platform=android &
           sleep 10
@@ -34,7 +41,8 @@ jobs:
 
       # Step 3: Run Maven automation tests
       - script: |
-          export PATH="/usr/local/bin:$PATH"
+          export ANDROID_HOME='/Users/evamp-saanga/Library/Android/sdk'
+          export PATH="$ANDROID_HOME/platform-tools:/usr/local/bin:$PATH"
           export JAVA_HOME='/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
           mvn -f pom.xml test -Dsurefire.suiteXmlFiles=testNGSuite.xml
         displayName: 'Run Android automation tests'
