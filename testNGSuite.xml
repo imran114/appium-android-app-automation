@@ -12,7 +12,7 @@
         <parameter name="env" value="prod"/>
 
         <classes>
-            <class name="tests.espresso.BasicEspressoSampleTest"/>
+            <class name="tests.espresso.EspressoTest"/>
         </classes>
     </test>
 
