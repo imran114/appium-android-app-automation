@@ -23,7 +23,7 @@ public class DriverManager {
 //            URL serverUrl = StartAppiumWithPlugin.startAppiumDeviceFarmServer(udid);
             URL serverUrl = null;
             try {
-                serverUrl = new URL("http://127.0.0.1:4723/");
+                serverUrl = new URL("http://127.0.0.1:4723/wd/hub");
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
