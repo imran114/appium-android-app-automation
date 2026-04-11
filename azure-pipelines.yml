@@ -1,6 +1,14 @@
 trigger:
   - main
 
+schedules:
+  - cron: '10 13 * * *'
+    displayName: 'Daily Run at 6:10 PM PKT'
+    branches:
+      include:
+        - main
+    always: true
+
 pool:
   name: 'Default'
   demands:
