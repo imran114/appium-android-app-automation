@@ -1,22 +1,70 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
 trigger:
-- main
+  - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: 'Default'
+  demands:
+    - agent.os -equals Darwin
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
+variables:
+  ANDROID_DEVICE_UDID: 'RFCT81AXXRM'
+  APPIUM_PORT: 4723
+  JAVA_HOME: '/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home'
+  MAVEN_OPTS: '-Xmx3072m'
+
+jobs:
+  - job: QA
+    displayName: 'Android Automation QA'
+    steps:
+
+      # Step 1: Verify Android device is connected
+      - script: |
+          echo "Checking connected Android devices..."
+          adb devices
+          adb start-server
+        displayName: 'Verify Android device connection'
+
+      # Step 2: Start Appium server in background
+      - script: |
+          echo "Starting Appium server..."
+          appium --port $(APPIUM_PORT) --log appium.log &
+          sleep 5
+          echo "Appium started"
+        displayName: 'Start Appium server'
+
+      # Step 3: Run Maven automation tests
+      - task: Maven@3
+        inputs:
+          mavenPomFile: 'pom.xml'
+          mavenOptions: '-Xmx3072m'
+          javaHomeOption: 'Path'
+          jdkUserInputPath: '$(JAVA_HOME)'
+          jdkArchitectureOption: 'x64'
+          goals: 'test'
+        displayName: 'Run Android automation tests'
+
+      # Step 4: Stop Appium after tests
+      - script: |
+          echo "Stopping Appium server..."
+          pkill -f appium || true
+        displayName: 'Stop Appium server'
+        condition: always()
+
+      # Step 5: Publish test results
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+          failTaskOnFailedTests: true
+          testRunTitle: 'Android Automation Tests'
+        displayName: 'Publish test results'
+        condition: always()
+
+      # Step 6: Upload Appium logs as artifact
+      # - task: PublishBuildArtifacts@1
+      #   inputs:
+      #     pathToPublish: 'appium.log'
+      #     artifactName: 'AppiumLogs'
+      #   displayName: 'Upload Appium logs'
+      #   condition: always()
