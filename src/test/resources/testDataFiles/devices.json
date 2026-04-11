@@ -1,0 +1,23 @@
+[
+  {
+    "device": {
+      "firstName": "primary-device",
+      "udid": "RFCT81AXXRM",
+      "deviceName": "Android Device",
+      "platformName": "Android",
+      "platformVersion": "14",
+      "automationName": "UiAutomator2",
+      "app": "apps/app.apk",
+      "autoGrantPermissions": true,
+      "noReset": false,
+      "fullReset": false,
+      "appWaitForLaunch": true,
+      "newCommandTimeoutSeconds": 3600,
+      "uiautomator2ServerInstallTimeout": 120000,
+      "uiautomator2ServerLaunchTimeout": 120000,
+      "adbExecTimeout": 180000,
+      "ignoreHiddenApiPolicyError": true,
+      "instrumentationKeepAlive": true
+    }
+  }
+]

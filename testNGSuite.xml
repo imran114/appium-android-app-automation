@@ -7,13 +7,12 @@
         <listener class-name="utilities.listener.TestListener"/>
     </listeners>
 
-    <test name="Instagram Tests">
-        <parameter name="platform" value="android"/>
-        <parameter name="udid" value="provide device udid here"/>
+    <test name="App Tests">
+        <parameter name="udid" value="RFCT81AXXRM"/>
         <parameter name="env" value="prod"/>
 
         <classes>
-            <class name="tests.login.LoginTests"/>
+            <class name="tests.espresso.BasicEspressoSampleTest"/>
         </classes>
     </test>
 
