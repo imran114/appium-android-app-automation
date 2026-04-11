@@ -22,6 +22,7 @@ Maven-based Java project for **Android** UI automation with **Appium 9**, **Sele
 
 ```
 ├── apps/                              # APK under test (default: apps/app.apk)
+├── recordings/                        # Screen recordings (.mp4) — created at runtime (see below)
 ├── testNGSuite.xml                    # TestNG suite (listeners, parameters, classes)
 ├── pom.xml
 ├── src/main/java/
@@ -88,6 +89,16 @@ mvn clean test
 ```
 
 Or run the suite from the IDE using `testNGSuite.xml`. Extent reports are written under `src/test/resources/reports/` as `{apkBasename}_{d_MMMM_yyyy}.html` (for example `app_11_April_2026.html` when the APK is `apps/app.apk`; see `FindAPKFiles.PROJECT_APK_RELATIVE` and `ExtentReport`).
+
+---
+
+## Screen recordings
+
+Tests that extend **`PageObjects`** start an Appium **screen recording** at `@BeforeClass` and stop it at `@AfterClass`, via **`ScreenRecordingUtils`**.
+
+- **Where to find videos:** project root folder **`recordings/`** (created automatically if missing).
+- **Layout:** files are saved under `recordings/{bucket}/`, where `bucket` is the TestNG **`loginID`** parameter (sanitized). If `loginID` is missing, the folder name is **`unknown`**. Each file is named `{TestClassName}_{yyyyMMdd_HHmmss_SSS}.mp4`.
+- **Requirements:** a live Appium session and device support for `startRecordingScreen` / `stopRecordingScreen` (behavior can vary by Android version or OEM; see console `[REC]` logs if a run saves nothing).
 
 ---
 

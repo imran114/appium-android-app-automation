@@ -10,6 +10,7 @@
     <test name="App Tests">
         <parameter name="udid" value="RFCT81AXXRM"/>
         <parameter name="env" value="prod"/>
+        <parameter name="loginID" value="prepaid"/>
 
         <classes>
             <class name="tests.espresso.EspressoTest"/>

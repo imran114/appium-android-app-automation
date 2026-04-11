@@ -24,7 +24,7 @@ public class PageObjects extends BaseClass {
         buttonActions = new ButtonActions(getDriver());
         userType = getLoginID();
 //        ensureAppReady();
-//        ScreenRecordingUtils.startRecording(getDriver(), userType);
+        ScreenRecordingUtils.startRecording(getDriver(), userType);
     }
 
     private void ensureAppReady() {
