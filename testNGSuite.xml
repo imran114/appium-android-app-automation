@@ -1,7 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Regression Test Suite">
 
-
     <listeners>
         <listener class-name="utilities.listener.SuiteListener"/>
         <listener class-name="utilities.listener.TestListener"/>
@@ -11,14 +10,13 @@
         <parameter name="udid" value="RFCT81AXXRM"/>
         <parameter name="env" value="prod"/>
         <parameter name="loginID" value="prepaid"/>
+        <parameter name="deviceName" value="Samsung"/>
+        <parameter name="platformVersion" value="14"/>
+        <parameter name="language" value="en"/>
 
         <classes>
             <class name="tests.espresso.EspressoTest"/>
         </classes>
     </test>
-
-
-
-
 
 </suite>
