@@ -9,7 +9,7 @@ pool:
 variables:
   ANDROID_DEVICE_UDID: 'RFCT81AXXRM'
   APPIUM_PORT: 4723
-  JAVA_HOME: '/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home'
+  JAVA_HOME: '/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
   MAVEN_OPTS: '-Xmx3072m'
 
 jobs:
