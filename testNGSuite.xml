@@ -11,7 +11,7 @@
         <parameter name="env" value="prod"/>
         <parameter name="loginID" value="prepaid"/>
         <parameter name="deviceName" value="Samsung"/>
-        <parameter name="platformVersion" value="14"/>
+        <parameter name="platformVersion" value="16"/>
         <parameter name="language" value="en"/>
 
         <classes>
