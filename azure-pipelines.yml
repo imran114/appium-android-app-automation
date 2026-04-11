@@ -1,0 +1,66 @@
+trigger:
+  - main
+
+pool:
+  name: 'Default'
+  demands:
+    - agent.os -equals Darwin
+
+variables:
+  ANDROID_DEVICE_UDID: 'RFCT81AXXRM'
+  APPIUM_PORT: 4723
+  JAVA_HOME: '/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
+  MAVEN_OPTS: '-Xmx3072m'
+
+jobs:
+  - job: QA
+    displayName: 'Android Automation QA'
+    steps:
+
+      # Step 1: Verify Android device is connected
+      - script: |
+          echo "Checking connected Android devices..."
+          adb devices
+          adb start-server
+        displayName: 'Verify Android device connection'
+
+      # Step 2: Start Appium server in background
+      - script: |
+          echo "Starting Appium server..."
+          appium --port $(APPIUM_PORT) --log appium.log &
+          sleep 5
+          echo "Appium started"
+        displayName: 'Start Appium server'
+
+      # Step 3: Run Maven automation tests
+      - script: |
+          export PATH="/usr/local/bin:$PATH"
+          export JAVA_HOME='/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
+          mvn -f pom.xml test
+        displayName: 'Run Android automation tests'
+
+      # Step 4: Stop Appium after tests
+      - script: |
+          echo "Stopping Appium server..."
+          pkill -f appium || true
+        displayName: 'Stop Appium server'
+        condition: always()
+
+      # Step 5: Publish test results
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'JUnit'
+          testResultsFiles: '**/surefire-reports/TEST-*.xml'
+          searchFolder: '$(System.DefaultWorkingDirectory)'
+          failTaskOnFailedTests: true
+          testRunTitle: 'Android Automation Tests'
+        displayName: 'Publish test results'
+        condition: always()
+
+      # Step 6: Upload Appium logs as artifact
+      # - task: PublishBuildArtifacts@1
+      #   inputs:
+      #     pathToPublish: 'appium.log'
+      #     artifactName: 'AppiumLogs'
+      #   displayName: 'Upload Appium logs'
+      #   condition: always()
