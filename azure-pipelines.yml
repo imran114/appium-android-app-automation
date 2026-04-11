@@ -24,11 +24,11 @@ jobs:
           adb start-server
         displayName: 'Verify Android device connection'
 
-      # Step 2: Start Appium server in background
+      # Step 2: Start Appium server with device-farm plugin
       - script: |
-          echo "Starting Appium server..."
-          appium --port $(APPIUM_PORT) --log appium.log &
-          sleep 5
+          echo "Starting Appium server with device-farm plugin..."
+          appium server -ka 800 --use-plugins=device-farm -pa /wd/hub --plugin-device-farm-platform=android &
+          sleep 10
           echo "Appium started"
         displayName: 'Start Appium server'
 
@@ -36,7 +36,7 @@ jobs:
       - script: |
           export PATH="/usr/local/bin:$PATH"
           export JAVA_HOME='/Users/evamp-saanga/Library/Java/JavaVirtualMachines/ms-17.0.15/Contents/Home'
-          mvn -f pom.xml test
+          mvn -f pom.xml test -Dsurefire.suiteXmlFiles=testNGSuite.xml
         displayName: 'Run Android automation tests'
 
       # Step 4: Stop Appium after tests
