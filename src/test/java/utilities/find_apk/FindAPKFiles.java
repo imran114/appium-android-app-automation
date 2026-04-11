@@ -32,4 +32,18 @@ public class FindAPKFiles {
         int idx = myDir.indexOf(toStrip);
         return (idx > 0) ? myDir.substring(0, idx) : myDir;
     }
+
+    /**
+     * Basename of the configured APK (no extension), safe for report filenames.
+     * Example: {@code apps/app.apk} → {@code app}. Used by Extent report naming.
+     */
+    public static String getReportFileNamePrefix() {
+        Path p = Paths.get(PROJECT_APK_RELATIVE);
+        String fileName = p.getFileName().toString();
+        String base = fileName.toLowerCase().endsWith(".apk")
+                ? fileName.substring(0, fileName.length() - 4)
+                : fileName;
+        String sanitized = base.replaceAll("[^a-zA-Z0-9_-]+", "_");
+        return sanitized.isBlank() ? "AndroidApp" : sanitized;
+    }
 }

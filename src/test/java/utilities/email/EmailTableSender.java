@@ -2,6 +2,7 @@ package utilities.email;
 
 import com.google.gson.Gson;
 import io.appium.java_client.AppiumDriver;
+import utilities.find_apk.FindAPKFiles;
 import utilities.reporter.ExtentReport;
 import utilities.reporter.ReportUtils;
 import utils.seleniumUtils.SeleniumUtils;
@@ -16,7 +17,7 @@ import java.util.Properties;
 
 public class EmailTableSender extends SeleniumUtils {
 
-    private final ExtentReport extent;  // CHANGE: Remove = new ... (initialize in constructor)
+    private final ExtentReport extent;
     private final EmailConfig config;
 
     public EmailTableSender(AppiumDriver driver, ExtentReport testExtent) {
@@ -112,13 +113,13 @@ public class EmailTableSender extends SeleniumUtils {
             System.out.println("Using fallback dir: " + reportsDir.getAbsolutePath());
         }
 
+        String reportPrefix = "report";
         File[] files = reportsDir.listFiles((dir, name) ->
-                name.endsWith(".html") && name.contains("ptcl")  // Optional: Filter for your naming pattern (e.g., "ptcl_3_October_2025.html")
-        );
+                name.endsWith(".html") && name.startsWith(reportPrefix + "_"));
 
         if (files == null || files.length == 0) {
             System.err.println("No matching HTML reports found in " + reportsDir.getAbsolutePath() +
-                    " - Expected something like 'ptcl_3_October_2025.html'");
+                    " - Expected something like '" + reportPrefix + "_11_April_2026.html'");
             return null;
         }
 

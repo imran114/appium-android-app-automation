@@ -9,6 +9,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utilities.file_reader.PropertiesFileReader;
+import utilities.find_apk.FindAPKFiles;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,13 +69,15 @@ public class ExtentReport {
         deleteExistingReports();
 
         String timestamp = new SimpleDateFormat("d_MMMM_yyyy").format(new Date());
-        String reportFile = "ptcl_" + timestamp + ".html";
+        String appReportPrefix = FindAPKFiles.getReportFileNamePrefix();
+        String reportFile = appReportPrefix + "_" + timestamp + ".html";
         String fullPath = reportsDir + File.separator + reportFile;
         System.out.println(">>> [DEBUG] Full report path:   " + fullPath);
 
+        String documentTitle = capitalizeWord(appReportPrefix) + " — Android automation report";
         try {
             ExtentSparkReporter spark = new ExtentSparkReporter(fullPath);
-            spark.config().setDocumentTitle("PTCL Automation Report");
+            spark.config().setDocumentTitle(documentTitle);
             spark.config().setTheme(Theme.DARK);
             spark.config().setCss(cssContent);
             spark.config().setJs(jsContent);
@@ -83,6 +86,13 @@ public class ExtentReport {
             System.err.println(">>> [ERROR] Failed to initialize ExtentSparkReporter:");
             e.getMessage();
         }
+    }
+
+    private static String capitalizeWord(String s) {
+        if (s == null || s.isEmpty()) {
+            return "App";
+        }
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
     }
 
     // Create (or get) a parent test safely; do NOT bind it to the thread

@@ -87,7 +87,7 @@ Maven-based Java project for **Android** UI automation with **Appium 9**, **Sele
 mvn clean test
 ```
 
-Or run the suite from the IDE using `testNGSuite.xml`. Extent reports are produced under `src/test/resources/reports/` (see `ExtentReport` / `ReportUtils` for exact naming).
+Or run the suite from the IDE using `testNGSuite.xml`. Extent reports are written under `src/test/resources/reports/` as `{apkBasename}_{d_MMMM_yyyy}.html` (for example `app_11_April_2026.html` when the APK is `apps/app.apk`; see `FindAPKFiles.PROJECT_APK_RELATIVE` and `ExtentReport`).
 
 ---
 
